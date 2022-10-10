@@ -1,0 +1,10 @@
+train: /content/drive/MyDrive/Car_2809
+val: /content/drive/MyDrive/Car_2809
+# Classes
+nc : 5 
+names:
+  0: bicycle
+  1: bus
+  2: car
+  3: motorcycle
+  4: van
