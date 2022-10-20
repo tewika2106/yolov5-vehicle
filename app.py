@@ -14,24 +14,32 @@ from PySide6.QtWidgets import *
 import cv2
 import numpy as np
 import torch
-import os
+
 
 class Ui_MainWindow(object):
     def __init__(self):
         self.image = None
         self.leftCounter = {
-            1: 0, # bicycle
-            2: 0, # car
-            3: 0, # motor
-            5: 0, # bus
-            7: 0 # truck
+           # 2: 0, # car
+            #3: 0, # motor
+           # 5: 0, # bus
+           # 7: 0 # truck
+           0: 0, #bicycle
+           1: 0, #bus
+           2: 0, #car
+           3: 0, #motorcycle
+           4: 0 #van
         }
         self.rightCounter = {
-            1: 0, # bicycle
-            2: 0, # car
-            3: 0, # motor
-            5: 0, # bus
-            7: 0 # truck
+           # 2: 0, # car
+           # 3: 0, # motor
+            #5: 0, # bus
+            #7: 0 # truck
+            0: 0, #bicycle
+           1: 0, #bus
+           2: 0, #car
+           3: 0, #motorcycle
+           4: 0 #van
         }
         self.isPlay = False
         self.videoPath = None
@@ -187,11 +195,11 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_8.addWidget(self.label_7)
 
-        self.truckLeft = QLineEdit(self.centralwidget)
-        self.truckLeft.setObjectName(u"truckLeft")
-        self.truckLeft.setReadOnly(True)
+        self.BicycleLeft = QLineEdit(self.centralwidget)
+        self.BicycleLeft.setObjectName(u"BicycleLeft")
+        self.BicycleLeft.setReadOnly(True)
 
-        self.horizontalLayout_8.addWidget(self.truckLeft)
+        self.horizontalLayout_8.addWidget(self.BicycleLeft)
 
         self.horizontalLayout_8.setStretch(0, 1)
         self.horizontalLayout_8.setStretch(1, 2)
@@ -252,6 +260,25 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_8.addLayout(self.horizontalLayout_3)
 
+        #add on van
+        self.horizontalLayout_20 = QHBoxLayout()
+        self.horizontalLayout_20.setObjectName(u"horizontalLayout_20")
+        self.label_20 = QLabel(self.centralwidget)
+        self.label_20.setObjectName(u"label_20")
+
+        self.horizontalLayout_20.addWidget(self.label_20)
+
+        self.VanLeft = QLineEdit(self.centralwidget)
+        self.VanLeft.setObjectName(u"VanLeft")
+        self.VanLeft.setReadOnly(True)
+
+        self.horizontalLayout_20.addWidget(self.VanLeft)
+
+        self.horizontalLayout_20.setStretch(0, 1)
+        self.horizontalLayout_20.setStretch(1, 2)
+
+        self.verticalLayout_8.addLayout(self.horizontalLayout_20)
+        #----------
 
         self.horizontalLayout_7.addLayout(self.verticalLayout_8)
 
@@ -264,11 +291,11 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_13.addWidget(self.label_12)
 
-        self.truckRight = QLineEdit(self.centralwidget)
-        self.truckRight.setObjectName(u"truckRight")
-        self.truckRight.setReadOnly(True)
+        self.BicycleRight = QLineEdit(self.centralwidget)
+        self.BicycleRight.setObjectName(u"BicycleRight")
+        self.BicycleRight.setReadOnly(True)
 
-        self.horizontalLayout_13.addWidget(self.truckRight)
+        self.horizontalLayout_13.addWidget(self.BicycleRight)
 
         self.horizontalLayout_13.setStretch(0, 1)
         self.horizontalLayout_13.setStretch(1, 2)
@@ -328,7 +355,25 @@ class Ui_MainWindow(object):
         self.horizontalLayout_11.setStretch(1, 2)
 
         self.verticalLayout_7.addLayout(self.horizontalLayout_11)
+        #add on van right
+        self.horizontalLayout_21 = QHBoxLayout()
+        self.horizontalLayout_21.setObjectName(u"horizontalLayout_21")
+        self.label_21 = QLabel(self.centralwidget)
+        self.label_21.setObjectName(u"label_21")
 
+        self.horizontalLayout_21.addWidget(self.label_21)
+
+        self.VanRight = QLineEdit(self.centralwidget)
+        self.VanRight.setObjectName(u"VanRight")
+        self.VanRight.setReadOnly(True)
+
+        self.horizontalLayout_21.addWidget(self.VanRight)
+
+        self.horizontalLayout_21.setStretch(0, 1)
+        self.horizontalLayout_21.setStretch(1, 2)
+
+        self.verticalLayout_7.addLayout(self.horizontalLayout_21)
+        #------------
 
         self.horizontalLayout_7.addLayout(self.verticalLayout_7)
 
@@ -394,22 +439,25 @@ class Ui_MainWindow(object):
             self.BusRight.show()
             self.MotorRight.show()
             self.CarRight.show()
-            self.truckRight.show()
+            self.BicycleRight.show()
+            self.VanRight.show()
             self.label_9.show()
             self.label_10.show()
             self.label_11.show()
             self.label_12.show()
-            
+            self.label_21.show()
         else:
             self.isTwoWay = False
             self.BusRight.hide()
             self.MotorRight.hide()
             self.CarRight.hide()
-            self.truckRight.hide()
+            self.BicycleRight.hide()
+            self.VanRight.hide()
             self.label_9.hide()
             self.label_10.hide()
             self.label_11.hide()
             self.label_12.hide()
+            self.label_21.hide()
 
 
     # setupUi
@@ -424,14 +472,16 @@ class Ui_MainWindow(object):
         self.label_13.setText(QCoreApplication.translate("MainWindow", u"Model", None))
         self.twoWayCheckbox.setText(QCoreApplication.translate("MainWindow", u"Two Way?", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"Counter", None))
-        self.label_7.setText(QCoreApplication.translate("MainWindow", u"truck", None))
+        self.label_7.setText(QCoreApplication.translate("MainWindow", u"Bicycle", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"Bus", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Car", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"Motorcycle", None))
-        self.label_12.setText(QCoreApplication.translate("MainWindow", u"truck", None))
+        self.label_20.setText(QCoreApplication.translate("MainWindow", u"Van", None))
+        self.label_12.setText(QCoreApplication.translate("MainWindow", u"Bicycle", None))
         self.label_11.setText(QCoreApplication.translate("MainWindow", u"Bus", None))
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"Car", None))
         self.label_10.setText(QCoreApplication.translate("MainWindow", u"Motorcycle", None))
+        self.label_21.setText(QCoreApplication.translate("MainWindow", u"Van", None))
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"Total", None))
     # retranslateUi
 
@@ -448,14 +498,16 @@ class Ui_MainWindow(object):
              self.playButton.setEnabled(True)
 
     def updateCounter(self):
-        self.BusLeft.setText(str(self.leftCounter[5]))
+        self.BusLeft.setText(str(self.leftCounter[1]))
         self.CarLeft.setText(str(self.leftCounter[2]))
         self.MotorLeft.setText(str(self.leftCounter[3]))
-        self.truckLeft.setText(str(self.leftCounter[7]))
-        self.BusRight.setText(str(self.rightCounter[5]))
+        self.BicycleLeft.setText(str(self.leftCounter[0]))
+        self.VanLeft.setText(str(self.leftCounter[4]))
+        self.BusRight.setText(str(self.rightCounter[1]))
         self.CarRight.setText(str(self.rightCounter[2]))
         self.MotorRight.setText(str(self.rightCounter[3]))
-        self.truckRight.setText(str(self.rightCounter[7]))
+        self.BicycleRight.setText(str(self.rightCounter[0]))
+        self.VanRight.setText(str(self.rightCounter[4]))
         self.TotalField.setText(str(sum(self.leftCounter.values()) + sum(self.rightCounter.values())))
 
     def playstop(self):
@@ -625,9 +677,11 @@ class Ui_MainWindow(object):
     def startYolo(self):
         cap = cv2.VideoCapture(self.videoPath)
 
-        model = torch.hub.load('./yolov5', self.model, _verbose=False)
-        model.classes = [1, 2, 3, 5]
-        model.conf =0.4
+        model = torch.hub.load('kitta789/detect', self.model, _verbose=False) 
+
+        #model.classes = [2, 3, 5, 7]
+        model.classes = [0, 1, 2, 3, 4]
+        model.conf =0.6
         model.iou=0.8
         if (cap.isOpened()== False): 
             print("Error opening video stream or file")
