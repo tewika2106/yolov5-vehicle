@@ -45,7 +45,7 @@ class Ui_MainWindow(object):
         self.videoPath = None
         self.yHeight = 40
         self.isTwoWay = True
-        self.model = 'yolov5s'
+        self.model = 'best'
 
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
@@ -146,7 +146,7 @@ class Ui_MainWindow(object):
 
         self.comboBox = QComboBox(self.centralwidget)
         self.comboBox.setObjectName(u"comboBox")
-        self.comboBox.addItems(["yolov5n", "yolov5s", "yolov5m", "yolov5l", "yolov5x"])
+        self.comboBox.addItems(["best","yolov5n", "yolov5s", "yolov5m", "yolov5l", "yolov5x"])
         self.comboBox.setCurrentIndex(1)
 
         self.horizontalLayout_4.addWidget(self.comboBox)
@@ -677,7 +677,8 @@ class Ui_MainWindow(object):
     def startYolo(self):
         cap = cv2.VideoCapture(self.videoPath)
 
-        model = torch.hub.load('kitta789/detect', self.model, _verbose=False) 
+        #model = torch.hub.load('kitta789/detect', self.model, _verbose=False) 
+        model = torch.hub.load('kitta789/detect','custom', path='./best.pt')
 
         #model.classes = [2, 3, 5, 7]
         model.classes = [0, 1, 2, 3, 4]
